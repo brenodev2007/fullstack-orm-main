@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { prisma } from "@/prisma";
 
 class QuestionsController {
   async index(request: Request, response: Response) {
@@ -6,8 +7,10 @@ class QuestionsController {
   }
 
   async create(request: Request, response: Response) {
+    const { title, content, user_id } = request.body;
+
+    await prisma.question.create({ data: { title, content, userId: user_id } });
     return response.status(201).json();
-    throw new Error("Broken");
   }
 
   async update(request: Request, response: Response) {
